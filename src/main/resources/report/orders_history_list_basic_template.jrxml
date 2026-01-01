@@ -1,0 +1,143 @@
+<jasperReport name="orders_history_list_basic_template_image_from_server" language="java" pageWidth="842" pageHeight="495" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="First Report using MySQL"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50.0" bold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18.0" bold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14.0" bold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle mode="Opaque" backcolor="#F0EFEF">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<!-- name of Field tag maps the prop of java pojo -->
+	<field name="oiId" class="java.lang.Long">
+	</field>
+	<field name="imageUrl" class="java.lang.String">
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+	</field>
+	<field name="price" class="java.lang.Double">
+	</field>
+	<!-- name of Parameter tag maps the Map<String, Object> class (key) -->
+	<parameter name="title" class="java.lang.String">
+	</parameter>
+	<parameter name="logoUrl" class="java.lang.String">
+	</parameter>
+	<parameter name="datetimeCondition" class="java.lang.String">
+	</parameter>
+	<parameter name="totalPrice" class="java.lang.Double">
+	</parameter>
+	<!-- name of Variable tag is used in JasperReports expressions to reference the value of a defined report variable -->
+	<variable name="totalQuantity" class="java.lang.Integer" calculation="Sum"> <!-- calculation="<the name of function for using>"-->
+		<!-- calculation for each record. -->
+		<expression><![CDATA[ $F{quantity} ]]></expression>
+	</variable>
+	<!--<variable name="totalPrice" class="java.lang.Double" calculation="Sum">
+		<expression><![CDATA[ $F{price} ]]></expression>
+	</variable>-->
+
+	<title height="102" splitType="Stretch">
+		<element kind="frame" uuid="d8d9e644-3a32-491d-97cb-a277aff17133" mode="Opaque" x="0" y="0" width="802" height="66" backcolor="#000000">
+			<element kind="textField" uuid="27d8f6ee-f0a9-44f6-a160-1763c3b00f30" x="0" y="0" width="530" height="66" bold="false" vTextAlign="Bottom" style="Title">
+				<!--
+				Way to use parameter
+				$P{<key>} ex, the title is prop name can sent tru java code
+				declare on expression tag inside element kind="textField"
+				-->
+				<expression><![CDATA[ $P{title} ]]></expression>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4" style="Title"/>
+			</element>
+			<element kind="image" uuid="3df1e344-d9ac-44e0-8e79-b7ad756d642d" x="730" y="3" width="72" height="63">
+				<expression><![CDATA[ $P{logoUrl} ]]></expression>
+				<!-- ** Same <expression><![CDATA["http://www.thitikorn-nupan.com/app/ecommerce/logo.png"]]></expression>-->
+			</element>
+		</element>
+		<element kind="frame" uuid="b0c895f6-6dbd-477d-9858-9ad66af087e1" mode="Opaque" x="0" y="70" width="802" height="32" forecolor="#000000" backcolor="#CC0000">
+			<element kind="textField" uuid="a33fce3b-20c1-4696-873a-fe134d1e7d88" x="472" y="0" width="330" height="32" forecolor="#FFFFFF" fontSize="12.0" pattern="EEEEE dd MMMMM yyyy" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA["Print Datetime : " + new java.util.Date()]]></expression>
+			</element>
+			<element kind="textField" uuid="65668ff8-d94d-4dfa-b50a-14c5f7700d95" positionType="Float" x="0" y="0" width="230" height="32" fontSize="14.0" textAdjust="StretchHeight" linkType="None" linkTarget="Self" vTextAlign="Middle" style="Detail">
+				<expression><![CDATA["Datetime Condition : "+$P{datetimeCondition}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+			</element>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader height="18" splitType="Stretch">
+		<element kind="staticText" uuid="b4959e4d-ef86-4e35-b1c8-b8f19008cd37" x="0" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
+			<text><![CDATA[ORDER ID]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+		</element>
+		<element kind="staticText" uuid="d8e50624-c587-4ef3-972f-cb8414b9eb1d" x="199" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
+			<text><![CDATA[IMAGE]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bc6278c7-b4cb-4948-9e5d-99b9789c7613"/>
+		</element>
+		<element kind="staticText" uuid="2dad2e4b-bf6f-4ba6-ba9c-e8ca592871a9" x="398" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
+			<text><![CDATA[QUANTITY]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9a7a445-169c-491b-84b2-1b877e8ea34a"/>
+		</element>
+		<element kind="staticText" uuid="6fd583d0-2843-4cbe-a39a-2e2a27047c5a" x="597" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
+			<text><![CDATA[PRICE]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="882c426c-2ea1-4ea7-8f55-6ac5bae91491"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<element kind="frame" uuid="34a2ae4b-4055-476b-8676-d499f6af510b" mode="Opaque" x="0" y="0" width="797" height="18" style="Row">
+				<element kind="textField" uuid="ae56157b-6419-41e8-adff-cdc5fd53e1b6" positionType="Float" x="0" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" linkType="None" linkTarget="Self" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{oiId}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+				</element>
+				<element kind="image" uuid="b22656b6-126f-4d30-ab07-714d1d94eafd" x="199" y="1" width="199" height="16" linkType="None" linkTarget="Self" hImageAlign="Left" vImageAlign="Middle">
+					<expression><![CDATA[$F{imageUrl}]]></expression>
+				</element>
+				<element kind="textField" uuid="271ae4b7-6867-47a1-94a0-91830208ba2c" positionType="Float" x="398" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" linkType="None" linkTarget="Self" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{quantity} + " PCS"]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9a7a445-169c-491b-84b2-1b877e8ea34a"/>
+				</element>
+				<element kind="textField" uuid="23da60a6-892a-4317-818d-87e938238ace" positionType="Float" x="597" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" linkType="None" linkTarget="Self" vTextAlign="Middle" style="Detail">
+					<expression><![CDATA[$F{price} + " THB"]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="882c426c-2ea1-4ea7-8f55-6ac5bae91491"/>
+				</element>
+			</element>
+		</band>
+	</detail>
+	<!-- pageFooter is On the buttom page -->
+	<pageFooter height="16" splitType="Stretch">
+		<element kind="frame" uuid="6f4fe8ef-88ca-4d5d-b46a-054826bb7893" mode="Opaque" x="2" y="0" width="800" height="16" forecolor="#000000" backcolor="#CC0000">
+			<element kind="textField" uuid="970781d6-87a0-4d3d-a07b-5ae173a1317a" x="753" y="0" width="40" height="16" forecolor="#FFFFFF" fontName="Arial" fontSize="12.0" evaluationTime="Report" bold="false" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+			</element>
+			<element kind="textField" uuid="42664b34-c87b-42f8-911b-bd9c2ab9111e" x="673" y="0" width="80" height="16" forecolor="#FFFFFF" fontName="Arial" fontSize="12.0" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+			</element>
+		</element>
+	</pageFooter>
+	<!-- summary is On the last -->
+	<summary height="43" splitType="Stretch">
+		<element kind="staticText" uuid="bf0f1f3c-2d06-4881-bd3c-8d4e7a406433" x="0" y="20" width="180" height="23" forecolor="#000000" bold="false" vTextAlign="Middle" style="Column header">
+			<text><![CDATA[TOTAL QUANTITY]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+		</element>
+		<element kind="staticText" uuid="d40422f1-e65c-443f-ba40-21ac4b698516" x="440" y="20" width="199" height="23" forecolor="#000000" bold="false" vTextAlign="Middle" style="Column header">
+			<text><![CDATA[TOTAL PRICE]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+		</element>
+		<element kind="textField" uuid="76884305-1dd2-4606-9251-5bb4a3d7166d" positionType="Float" x="180" y="20" width="140" height="23" fontSize="14.0" textAdjust="StretchHeight" style="Detail">
+			<expression><![CDATA[
+				$V{totalQuantity} != null ? $V{totalQuantity} + " PCS" : ""
+			]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+		</element>
+		<!--
+		pattern="###0.00;-###0.00" not working on element not working
+		Note, you can use class java on  [CDATA[ ... ]] so use String.format() for setting decimal
+		 -->
+		<element kind="textField" uuid="8361e92e-328c-43d8-a439-0924089a8b75"  positionType="Float" x="639" y="20" width="140" height="23" fontSize="14.0" textAdjust="StretchHeight" style="Detail">
+			<expression><![CDATA[
+				$P{totalPrice} != null ? String.format("%.2f", (double)$P{totalPrice}.doubleValue()) + " THB"  : ""
+			]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ae316283-8626-41ca-b39a-031e665c9f79"/>
+		</element>
+	</summary>
+</jasperReport>
