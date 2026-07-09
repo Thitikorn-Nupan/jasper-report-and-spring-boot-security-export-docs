@@ -7,7 +7,7 @@ public class LoginRequest {
     private String username;
     private String password;
 
-    // @JsonProperty("username"),@JsonProperty("password") names from req as json
+    /// @JsonProperty("username"),@JsonProperty("password") names from req as json
     public LoginRequest(@JsonProperty("username") String username, @JsonProperty("password")String password) {
         this.username = username;
         this.password = password;
@@ -28,6 +28,5 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }

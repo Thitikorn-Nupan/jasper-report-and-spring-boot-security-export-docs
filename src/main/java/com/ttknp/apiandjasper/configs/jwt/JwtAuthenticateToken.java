@@ -9,7 +9,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import java.util.Date;
 import java.util.function.Function;
 
-// @Service // Note !! you can call JwtAuthenticateToken class tru SecurityContextHolder as : (JwtAuthenticateToken) SecurityContextHolder.getContext().getAuthentication() it will give this class
+/// @Service // Note !! you can call JwtAuthenticateToken class tru SecurityContextHolder as : (JwtAuthenticateToken) SecurityContextHolder.getContext().getAuthentication() it will give this class
 public class JwtAuthenticateToken extends AbstractAuthenticationToken {
 
     private static final Logger log = LoggerFactory.getLogger(JwtAuthenticateToken.class);
@@ -71,12 +71,12 @@ public class JwtAuthenticateToken extends AbstractAuthenticationToken {
     }
 
     /**
-    ก่อนอื่นเราต้องรู้จักกับของ 5 อย่างที่สำคัญของ AutheticationToken นั้นก็คือ
-    Principal -> เป็นของที่เราเอาไว้ระบุตัวตนเช่น name , email, id
-    GrantedAuthorities -> เป็นของที่เอาไว้บอกสิทธิ์การเข้าถึงเช่น Roles
-    isAuthenticated -> คือ Flag ที่เอาไว้บอกว่า Authenticated แล้ว
-    Detail -> เป็นที่เก็บข้อมูลเพิ่มเติม คำอธิบายเพิ่มเติม
-    Credentials -> password
+        5 อย่างที่สำคัญของ AutheticationToken นั้นก็คือ
+        Principal -> เป็นของที่เราเอาไว้ระบุตัวตนเช่น name , email, id
+        GrantedAuthorities -> เป็นของที่เอาไว้บอกสิทธิ์การเข้าถึงเช่น Roles
+        isAuthenticated -> คือ Flag ที่เอาไว้บอกว่า Authenticated แล้ว
+        Detail -> เป็นที่เก็บข้อมูลเพิ่มเติม คำอธิบายเพิ่มเติม
+        Credentials -> password
     */
     @Override
     public Object getCredentials() {

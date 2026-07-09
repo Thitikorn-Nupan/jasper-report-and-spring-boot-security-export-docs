@@ -61,5 +61,4 @@ public class UsefulAuthHelper {
         return objectMapper.convertValue(object, new TypeReference<Map<String, Object>>() {});
     }
 
-
 }

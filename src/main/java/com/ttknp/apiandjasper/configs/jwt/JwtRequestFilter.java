@@ -85,7 +85,8 @@ public class JwtRequestFilter extends OncePerRequestFilter { // Here, this filte
             }
         }
 
-        /**if (token == null || !token.startsWith("Bearer ")) { // if you doesn't want permitAll(...) just add return;
+        /*
+        if (token == null || !token.startsWith("Bearer ")) { // if you doesn't want permitAll(...) just add return;
             StringBuilder stringBuilder = getErrorStringBuilder(request, new RuntimeException(), 401, "Error authenticating token");
             response.setStatus(401);
             response.setContentType("application/json");
@@ -95,7 +96,8 @@ public class JwtRequestFilter extends OncePerRequestFilter { // Here, this filte
             response.getWriter()
                     .flush();
             return;
-        }*/
+        }
+        */
         chain.doFilter(request, response); // keep continute req/res if you want your permitAll(...) working!
     }
 

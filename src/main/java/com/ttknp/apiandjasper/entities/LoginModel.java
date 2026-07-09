@@ -93,5 +93,4 @@ public class LoginModel {
         this.role = role;
     }
 
-
 }

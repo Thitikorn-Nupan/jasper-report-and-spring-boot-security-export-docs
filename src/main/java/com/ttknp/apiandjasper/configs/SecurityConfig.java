@@ -51,6 +51,9 @@ public class SecurityConfig {
                     authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,"/api/login").permitAll(); // whoever can access
                     authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,"/api/reads-report").permitAll();
                     authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,"/api/auth/reads-report").hasRole("ADMIN"); // Note , hasRole(...) will looking to ROLE_* as ROLE_USER,ROLE_ADMIN
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,"/api/auth/reads-report-v2").hasRole("ADMIN"); // Note , hasRole(...) will looking to ROLE_* as ROLE_USER,ROLE_ADMIN
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,"/api/auth/principle").hasAnyRole("ADMIN","USER"); // Note , hasAnyRole(...) will looking to ROLE_* as ROLE_USER,ROLE_ADMIN
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,"/api/preview-report").hasRole("ADMIN"); // Note , hasRole(...) will looking to ROLE_* as ROLE_USER,ROLE_ADMIN
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated(); // another authenticate all
                 }).httpBasic();
         httpSecurity.addFilterBefore(this.jwtRequestFilter, BasicAuthenticationFilter.class);

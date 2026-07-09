@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Date;
 
-// Very perfect user didn't need pass token always on own just get it with SecurityContextHolder
+/// get it with SecurityContextHolder
 public abstract class JwtSpringSecurityContextHelper {
 
     private static final Logger log = LoggerFactory.getLogger(JwtSpringSecurityContextHelper.class);

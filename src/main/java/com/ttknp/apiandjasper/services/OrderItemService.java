@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class OrderItemService {
     }
 
     private List<OrderItem> getOrderItems() {
-        String sql = "select * from order_item;";
+        String sql = "select * from order_items;";
         return executeQuery(sql, BeanPropertyRowMapper.newInstance(OrderItem.class));
     }
 
@@ -94,6 +95,67 @@ public class OrderItemService {
             }
         }
         return map;
+    }
+
+    public byte[] getOrderItemsReportV2(String fileType) {
+        if (fileType != null) {
+            try {
+                OrdersHistoryListJasperReportInBytesFromRootPathApplyThread ordersHistoryListJasperReportInBytesFromRootPathApplyThread = new OrdersHistoryListJasperReportInBytesFromRootPathApplyThread(fileType);
+                ordersHistoryListJasperReportInBytesFromRootPathApplyThread.start();
+                ordersHistoryListJasperReportInBytesFromRootPathApplyThread.join();
+                return ordersHistoryListJasperReportInBytesFromRootPathApplyThread.fileReport;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            throw new RuntimeException("failed print report v2");
+        }
+    }
+
+    // ***
+    class OrdersHistoryListJasperReportInBytesFromRootPathApplyThread extends Thread {
+        private byte[] fileReport;
+        private final String fileType;
+
+        public OrdersHistoryListJasperReportInBytesFromRootPathApplyThread(String fileType) {
+            this.fileType = fileType;
+        }
+
+        public byte[] getFileReport() {
+            return fileReport;
+        }
+
+        @Override
+        public void run() {
+            String resourceTemplateClassPath = "classpath:report/orders_history_list_basic_template.jrxml";
+            List<OrderItem> orderItemsDataSource = getOrderItemsForJasperReport(); // getOrderItemsForJasperReport();
+            // 0.1 Fix invalid url (Optional)
+            orderItemsDataSource.forEach(orderItem -> {
+                orderItem.setImageUrl(orderItem.getImageUrl().replaceAll(" ", "%20"));
+            });
+            Double totalPrice = 0d;
+            for (OrderItem orderItem : orderItemsDataSource)  totalPrice += (orderItem.getPrice() * orderItem.getQuantity());
+            // 1. Create Required Parameters For mapping parameter tags
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("title", "Orders History");
+            parameters.put("logoUrl", "http://www.thitikorn-nupan.com/app/ecommerce/logo.png");
+            parameters.put("datetimeCondition", " ");
+            parameters.put("totalPrice", totalPrice);
+            try {
+                // 2. Create DataSource
+                JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orderItemsDataSource);
+                // 2.2 Load Path Of Template
+                String path = ResourceUtils.getFile(resourceTemplateClassPath).getAbsolutePath();
+                // 3. Compile .jrmxl template, stored in JasperReport object
+                JasperReport jasperReport = JasperCompileManager.compileReport(path);
+                // 4. Fill Report - by passing complied .jrxml object, parameters, datasource
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanCollectionDataSource);
+                // 5.Export Report - by using JasperExportManager
+                fileReport = exportJasperReportBytes(jasperPrint, fileType);
+            } catch (FileNotFoundException | JRException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public HashMap<String, byte[]> getOrderItemsHasMapReport(String fileType, String datetime) { // it's same getOrderItemsHasMapReport(fileType) but just have parameters
